@@ -1,4 +1,4 @@
-# StudentCC - Developer Documentation
+# StudentCC - Developer Documentation -- 
 
 > **For Students**: Download the app from [salmanmalvasi.github.io/studentcc-landing.html](https://salmanmalvasi.github.io/studentcc-landing.html)
 
