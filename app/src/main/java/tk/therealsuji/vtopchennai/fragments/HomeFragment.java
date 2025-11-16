@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -196,9 +199,22 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(requireContext());
         View homeFragment = inflater.inflate(R.layout.fragment_home, container, false);
-        float pixelDensity = this.getResources().getDisplayMetrics().density;
 
         AppBarLayout appBarLayout = homeFragment.findViewById(R.id.app_bar);
+        int colorPrimaryContainer = MaterialColors.getColor(requireContext(), R.attr.colorPrimaryContainer, Color.BLACK);
+        int colorSurface = MaterialColors.getColor(requireContext(), R.attr.colorSurface, Color.BLACK);
+
+        int translucentColorPrimaryContainer = Color.argb(128, Color.red(colorPrimaryContainer), Color.green(colorPrimaryContainer), Color.blue(colorPrimaryContainer));
+        int translucentColorSurface = Color.argb(128, Color.red(colorSurface), Color.green(colorSurface), Color.blue(colorSurface));
+
+        GradientDrawable gradientDrawable = new GradientDrawable(
+            GradientDrawable.Orientation.TL_BR,
+            new int[]{translucentColorPrimaryContainer, translucentColorSurface}
+        );
+        appBarLayout.setBackground(gradientDrawable);
+
+        float pixelDensity = this.getResources().getDisplayMetrics().density;
+
         ViewPager2 timetable = homeFragment.findViewById(R.id.view_pager_timetable);
 
         getParentFragmentManager().setFragmentResultListener("customInsets", this, (requestKey, result) -> {
