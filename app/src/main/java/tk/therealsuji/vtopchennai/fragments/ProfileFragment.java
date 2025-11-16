@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.materialswitch.MaterialSwitch;
+import tk.therealsuji.vtopchennai.fragments.dialogs.CustomizeBackgroundDialogFragment;
 
 
 import tk.therealsuji.vtopchennai.R;
@@ -226,6 +227,15 @@ public class ProfileFragment extends Fragment {
                                 .show();
                     },
                     null
+            ),
+            new ItemData(
+                    R.drawable.ic_appearance,
+                    "Customize Background",
+                    "Set a custom background image for the app",
+                    context -> {
+                        if (!isAdded()) return;
+                        new CustomizeBackgroundDialogFragment().show(getParentFragmentManager(), "CustomizeBackground");
+                    }
             ),
             new ItemData(
                     R.drawable.ic_gpa_calculator,

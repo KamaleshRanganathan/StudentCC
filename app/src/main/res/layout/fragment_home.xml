@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface">
+    android:background="@android:color/transparent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -254,7 +254,7 @@
         android:id="@+id/view_pager_timetable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorSurface"
+        android:background="@android:color/transparent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

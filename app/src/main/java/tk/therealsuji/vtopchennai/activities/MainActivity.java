@@ -9,7 +9,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -58,7 +60,6 @@ import tk.therealsuji.vtopchennai.fragments.HostelInfoFragment;
 import tk.therealsuji.vtopchennai.fragments.ProfileFragment;
 import tk.therealsuji.vtopchennai.fragments.dialogs.UpdateDialogFragment;
 import tk.therealsuji.vtopchennai.helpers.AppDatabase;
-import tk.therealsuji.vtopchennai.helpers.InAppMessagingHelper;
 import tk.therealsuji.vtopchennai.helpers.FirebaseCrashlyticsHelper;
 import tk.therealsuji.vtopchennai.helpers.FirebaseConfigHelper;
 import tk.therealsuji.vtopchennai.helpers.SettingsRepository;
@@ -68,6 +69,7 @@ import android.Manifest;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
+    ImageView backgroundImageView;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     VTOPHelper vtopHelper;
 
@@ -112,6 +114,26 @@ public class MainActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(this, "Error: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+    );
+
+    ActivityResultLauncher<Intent> pickImageLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    try {
+                        Uri imageUri = result.getData().getData();
+                        if (imageUri != null) {
+                            getContentResolver().takePersistableUriPermission(imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            SharedPreferences sharedPreferences = SettingsRepository.getSharedPreferences(this);
+                            sharedPreferences.edit().putString("background_image_uri", imageUri.toString()).apply();
+                            loadBackgroundImage();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "Error setting background image.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -377,6 +399,8 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        backgroundImageView = findViewById(R.id.background_image_view);
+        loadBackgroundImage();
 
         // Initialize Firebase Analytics
         FirebaseAnalyticsHelper.initialize(this);
@@ -679,6 +703,39 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         compositeDisposable.dispose();
+    }
+
+    private void loadBackgroundImage() {
+        SharedPreferences sharedPreferences = SettingsRepository.getSharedPreferences(this);
+        String imageUriString = sharedPreferences.getString("background_image_uri", null);
+
+        if (imageUriString != null) {
+            try {
+                Uri imageUri = Uri.parse(imageUriString);
+                InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                android.graphics.drawable.Drawable drawable = android.graphics.drawable.Drawable.createFromStream(inputStream, imageUri.toString());
+                backgroundImageView.setImageDrawable(drawable);
+                backgroundImageView.setVisibility(View.VISIBLE);
+            } catch (Exception e) {
+                e.printStackTrace();
+                backgroundImageView.setVisibility(View.GONE);
+            }
+        } else {
+            backgroundImageView.setVisibility(View.GONE);
+        }
+    }
+
+    public void chooseBackgroundImage() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        pickImageLauncher.launch(intent);
+    }
+
+    public void removeBackgroundImage() {
+        SharedPreferences sharedPreferences = SettingsRepository.getSharedPreferences(this);
+        sharedPreferences.edit().remove("background_image_uri").apply();
+        loadBackgroundImage();
     }
 
     /**
