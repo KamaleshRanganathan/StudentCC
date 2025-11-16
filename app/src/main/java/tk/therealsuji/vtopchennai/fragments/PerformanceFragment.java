@@ -80,6 +80,7 @@ public class PerformanceFragment extends Fragment {
         View performanceFragment = inflater.inflate(R.layout.fragment_performance, container, false);
 
         this.appBarLayout = performanceFragment.findViewById(R.id.app_bar);
+        this.appBarLayout.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         this.marks = performanceFragment.findViewById(R.id.view_pager_marks);
         this.performanceCards = performanceFragment.findViewById(R.id.horizontal_scroll_view_performance_cards);
         LinearLayout header = performanceFragment.findViewById(R.id.linear_layout_header);

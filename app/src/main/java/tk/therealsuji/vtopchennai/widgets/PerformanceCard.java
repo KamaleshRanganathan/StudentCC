@@ -122,14 +122,19 @@ public class PerformanceCard extends LinearLayout {
         container.addView(this.scoreText);
         this.addView(container);
 
-        android.graphics.drawable.LayerDrawable layerDrawable = (android.graphics.drawable.LayerDrawable) ContextCompat.getDrawable(this.context, R.drawable.background_card);
-        android.graphics.drawable.GradientDrawable cardBackground = (android.graphics.drawable.GradientDrawable) layerDrawable.getDrawable(1);
-
+        int colorPrimaryContainer = com.google.android.material.color.MaterialColors.getColor(this.context, R.attr.colorPrimaryContainer, android.graphics.Color.BLACK);
         int colorSurface = com.google.android.material.color.MaterialColors.getColor(this.context, R.attr.colorSurface, android.graphics.Color.BLACK);
+
+        int translucentColorPrimaryContainer = android.graphics.Color.argb(128, android.graphics.Color.red(colorPrimaryContainer), android.graphics.Color.green(colorPrimaryContainer), android.graphics.Color.blue(colorPrimaryContainer));
         int translucentColorSurface = android.graphics.Color.argb(128, android.graphics.Color.red(colorSurface), android.graphics.Color.green(colorSurface), android.graphics.Color.blue(colorSurface));
 
-        cardBackground.setColor(translucentColorSurface);
-        this.setBackground(layerDrawable);
+        android.graphics.drawable.GradientDrawable gradientDrawable = new android.graphics.drawable.GradientDrawable(
+            android.graphics.drawable.GradientDrawable.Orientation.TL_BR,
+            new int[]{translucentColorPrimaryContainer, translucentColorSurface}
+        );
+        float cornerRadius = 20 * getResources().getDisplayMetrics().density;
+        gradientDrawable.setCornerRadius(cornerRadius);
+        this.setBackground(gradientDrawable);
         this.setOrientation(VERTICAL);
         this.setPadding(
                 (int) (20 * pixelDensity),
