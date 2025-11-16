@@ -58,7 +58,7 @@ import tk.therealsuji.vtopchennai.fragments.HostelInfoFragment;
 import tk.therealsuji.vtopchennai.fragments.ProfileFragment;
 import tk.therealsuji.vtopchennai.fragments.dialogs.UpdateDialogFragment;
 import tk.therealsuji.vtopchennai.helpers.AppDatabase;
-import tk.therealsuji.vtopchennai.helpers.FirebaseMessagingHelper;
+import tk.therealsuji.vtopchennai.helpers.InAppMessagingHelper;
 import tk.therealsuji.vtopchennai.helpers.FirebaseCrashlyticsHelper;
 import tk.therealsuji.vtopchennai.helpers.FirebaseConfigHelper;
 import tk.therealsuji.vtopchennai.helpers.SettingsRepository;
@@ -456,13 +456,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Check student type and hide hostel info tab if day scholar
         checkAndUpdateBottomNavigation();
-        
+
         // Test in-app messaging with a custom event (for debugging)
         testInAppMessaging();
-        
+
         // Add device as test device for Firebase In-App Messaging
         addAsTestDevice();
-        
+
         // Initialize and test In-App Messaging
         initializeInAppMessaging();
 
@@ -686,8 +686,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initializeFirebaseMessaging() {
         try {
-            FirebaseMessagingHelper messagingHelper = FirebaseMessagingHelper.getInstance(this);
-            messagingHelper.initializeMessaging();
+            InAppMessagingHelper messagingHelper = InAppMessagingHelper.getInstance();
+            messagingHelper.initialize(this);
 
             // Track app open event for automatic in-app messaging
             trackAppOpenEvent();
@@ -792,20 +792,20 @@ public class MainActivity extends AppCompatActivity {
                 Bundle testBundle = new Bundle();
                 testBundle.putString("test_mode", "true");
                 testBundle.putString("user_type", "student");
-                
+
                 // Test different event names
                 FirebaseAnalyticsHelper.trackCustomEvent(this, "test_in_app_message", testBundle);
                 FirebaseAnalyticsHelper.trackCustomEvent(this, "welcome_message", testBundle);
                 FirebaseAnalyticsHelper.trackCustomEvent(this, "app_ready", testBundle);
-                
+
                 // Also trigger the built-in app_open event
                 FirebaseAnalyticsHelper.trackCustomEvent(this, "app_open", testBundle);
-                
+
                 android.util.Log.d("MainActivity", "Test in-app messaging events triggered");
-                
+
                 // Use FirebaseHelper to trigger In-App Messaging
                 FirebaseHelper.getInstance().testInAppMessaging();
-                
+
             } catch (Exception e) {
                 android.util.Log.e("MainActivity", "Failed to trigger test in-app messaging: " + e.getMessage());
                 FirebaseCrashlyticsHelper.recordException(e);
@@ -822,7 +822,7 @@ public class MainActivity extends AppCompatActivity {
             FirebaseHelper firebaseHelper = FirebaseHelper.getInstance();
             firebaseHelper.triggerInAppMessage("app_open");
             firebaseHelper.triggerInAppMessage("welcome_message");
-            
+
             android.util.Log.d("MainActivity", "Firebase In-App Messaging trigger events sent");
         } catch (Exception e) {
             android.util.Log.e("MainActivity", "Failed to trigger Firebase In-App Messaging: " + e.getMessage());
@@ -837,15 +837,15 @@ public class MainActivity extends AppCompatActivity {
             // Use FirebaseHelper to configure In-App Messaging
             FirebaseHelper firebaseHelper = FirebaseHelper.getInstance();
             firebaseHelper.setInAppMessagingEnabled(true);
-            
+
             String deviceId = android.provider.Settings.Secure.getString(
                     getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-            
+
             android.util.Log.d("MainActivity", "Device configured for Firebase In-App Messaging");
             android.util.Log.d("MainActivity", "To add this device as test device in Firebase Console:");
             android.util.Log.d("MainActivity", "1. Go to Firebase Console → In-App Messaging → Test devices");
             android.util.Log.d("MainActivity", "2. Add this device ID: " + deviceId);
-            
+
         } catch (Exception e) {
             android.util.Log.e("MainActivity", "Failed to add as test device: " + e.getMessage());
         }
@@ -858,17 +858,17 @@ public class MainActivity extends AppCompatActivity {
         try {
             InAppMessagingHelper inAppHelper = InAppMessagingHelper.getInstance();
             inAppHelper.initialize(this);
-            
+
             // Log device setup instructions
             InAppMessagingHelper.logTestDeviceInstructions(this);
-            
+
             // Test in-app messaging after a delay
             new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
                 inAppHelper.testInAppMessaging();
             }, 5000); // 5 second delay
-            
+
             android.util.Log.d("MainActivity", "In-App Messaging helper initialized");
-            
+
         } catch (Exception e) {
             android.util.Log.e("MainActivity", "Failed to initialize In-App Messaging helper: " + e.getMessage());
         }

@@ -63,7 +63,7 @@ async function sendFCMNotification() {
         const options = {
             hostname: 'fcm.googleapis.com',
             port: 443,
-            path: '/v1/projects/studentcc-16b86/messages:send',
+            path: '/v1/projects/pocketcc-4f20f/messages:send',
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,

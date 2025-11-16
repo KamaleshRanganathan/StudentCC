@@ -7,7 +7,7 @@ This guide will help you set up Firebase Cloud Messaging (FCM) to automatically 
 ### 1. Firebase Console Setup
 
 1. **Go to [Firebase Console](https://console.firebase.google.com/)**
-2. **Select your project** (`studentcc-16b86`)
+2. **Select your project** (`pocketcc-4f20f`)
 3. **Navigate to Cloud Messaging** (Build > Cloud Messaging)
 4. **Get your Server Key**:
    - Go to Settings (gear icon) > Project Settings
@@ -46,7 +46,7 @@ Once set up, every time you push to the `main` or `master` branch:
 ## 🔔 Notification Content
 
 Users will receive notifications with:
-- **Title**: "StudentCC Update Available! 🚀"
+- **Title**: "PocketCC Update Available! 🚀"
 - **Body**: "New version with latest improvements. Visit our website to download!"
 - **Action**: Clicking opens your website (https://salmanmalvasi.github.io/studentcc-landing.html)
 - **Details**: Commit message, author, and SHA in the data payload

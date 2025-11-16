@@ -59,7 +59,7 @@ public class FirebaseHelper {
 
             // Initialize Firebase In-App Messaging
             inAppMessaging = FirebaseInAppMessaging.getInstance();
-            
+
             // Enable data collection for In-App Messaging
             inAppMessaging.setAutomaticDataCollectionEnabled(true);
 

@@ -3,7 +3,7 @@ public class TestAttendanceCalc {
     /**
      * Calculate attendance percentage with proper ceiling logic.
      * 9.xx becomes 9 (floor behavior), not 10 (ceiling behavior).
-     * This matches the original StudentCC logic.
+     * This matches the original PocketCC logic.
      */
     private static int calculateAttendancePercentage(int attended, int total) {
         if (total == 0) return 0;

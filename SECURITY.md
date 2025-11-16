@@ -43,7 +43,7 @@ nano .env  # or use your preferred editor
 | Variable | Description | Example |
 |----------|-------------|---------|
 | `FIREBASE_API_KEY` | Firebase API Key | `AIzaSyB...` |
-| `FIREBASE_PROJECT_ID` | Firebase Project ID | `studentcc-16b86` |
+| `FIREBASE_PROJECT_ID` | Firebase Project ID | `pocketcc-4f20f` |
 | `FIREBASE_PROJECT_NUMBER` | Firebase Project Number | `903476342662` |
 | `FIREBASE_APP_ID` | Firebase App ID | `1:903476342662:android:...` |
 | `FIREBASE_STORAGE_BUCKET` | Firebase Storage Bucket | `project.firebasestorage.app` |

@@ -35,10 +35,10 @@ public class InAppMessagingHelper {
         try {
             inAppMessaging = FirebaseInAppMessaging.getInstance();
             analytics = FirebaseAnalytics.getInstance(context);
-            
+
             // Enable data collection
             inAppMessaging.setAutomaticDataCollectionEnabled(true);
-            
+
             Log.d(TAG, "In-App Messaging initialized successfully");
         } catch (Exception e) {
             Log.e(TAG, "Failed to initialize In-App Messaging: " + e.getMessage());
@@ -67,7 +67,7 @@ public class InAppMessagingHelper {
     public void triggerEventWithAnalytics(String eventName, Bundle parameters) {
         // Trigger in-app message
         triggerEvent(eventName);
-        
+
         // Also log to Analytics
         if (analytics != null) {
             analytics.logEvent(eventName, parameters);
@@ -80,22 +80,22 @@ public class InAppMessagingHelper {
      */
     public void testInAppMessaging() {
         Log.d(TAG, "Starting In-App Messaging test...");
-        
+
         // Common events that usually trigger in-app messages
         triggerEvent("app_open");
         triggerEvent("welcome_message");
         triggerEvent("test_in_app_message");
         triggerEvent("user_engagement");
         triggerEvent("app_foreground");
-        
+
         // Custom events with analytics
         Bundle bundle = new Bundle();
         bundle.putString("test_mode", "true");
         bundle.putLong("timestamp", System.currentTimeMillis());
-        
+
         triggerEventWithAnalytics("student_app_open", bundle);
         triggerEventWithAnalytics("dashboard_view", bundle);
-        
+
         Log.d(TAG, "In-App Messaging test completed");
     }
 
@@ -121,7 +121,7 @@ public class InAppMessagingHelper {
      */
     public static String getDeviceId(Context context) {
         return android.provider.Settings.Secure.getString(
-                context.getContentResolver(), 
+                context.getContentResolver(),
                 android.provider.Settings.Secure.ANDROID_ID
         );
     }

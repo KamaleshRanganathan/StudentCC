@@ -21,7 +21,7 @@ if ! gcloud auth list --filter=status:ACTIVE --format="value(account)" &> /dev/n
 fi
 
 # Get project information
-PROJECT_ID="studentcc-16b86"
+PROJECT_ID="pocketcc-4f20f"
 echo "📱 Project ID: $PROJECT_ID"
 
 # Get project number
