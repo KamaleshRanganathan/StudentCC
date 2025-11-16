@@ -1,5 +1,7 @@
 package tk.therealsuji.vtopchennai.fragments;
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,7 +82,17 @@ public class PerformanceFragment extends Fragment {
         View performanceFragment = inflater.inflate(R.layout.fragment_performance, container, false);
 
         this.appBarLayout = performanceFragment.findViewById(R.id.app_bar);
-        this.appBarLayout.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        int colorPrimaryContainer = com.google.android.material.color.MaterialColors.getColor(requireContext(), R.attr.colorPrimaryContainer, android.graphics.Color.BLACK);
+        int colorSurface = com.google.android.material.color.MaterialColors.getColor(requireContext(), R.attr.colorSurface, android.graphics.Color.BLACK);
+
+        int translucentColorPrimaryContainer = android.graphics.Color.argb(128, android.graphics.Color.red(colorPrimaryContainer), android.graphics.Color.green(colorPrimaryContainer), android.graphics.Color.blue(colorPrimaryContainer));
+        int translucentColorSurface = android.graphics.Color.argb(128, android.graphics.Color.red(colorSurface), android.graphics.Color.green(colorSurface), android.graphics.Color.blue(colorSurface));
+
+        android.graphics.drawable.GradientDrawable gradientDrawable = new android.graphics.drawable.GradientDrawable(
+            android.graphics.drawable.GradientDrawable.Orientation.TL_BR,
+            new int[]{translucentColorPrimaryContainer, translucentColorSurface}
+        );
+        this.appBarLayout.setBackground(gradientDrawable);
         this.marks = performanceFragment.findViewById(R.id.view_pager_marks);
         this.performanceCards = performanceFragment.findViewById(R.id.horizontal_scroll_view_performance_cards);
         LinearLayout header = performanceFragment.findViewById(R.id.linear_layout_header);
