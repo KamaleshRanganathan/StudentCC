@@ -115,6 +115,8 @@ public class ExamsItemAdapter extends RecyclerView.Adapter<ExamsItemAdapter.View
 
                 if (Calendar.getInstance().getTime().after(new Date(examItem.endTime))) {
                     this.examItem.setAlpha(0.7f);
+                } else {
+                    this.examItem.setAlpha(1.0f);
                 }
             }
 
